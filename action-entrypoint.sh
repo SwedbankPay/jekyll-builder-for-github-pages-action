@@ -40,7 +40,7 @@ readonly gh_api_token="$INPUT_SECRET_GH_PAGES_API_TOKEN"
 function setup_build_repo {
     # Get data from the GitHub API.
     local -r actor_data_path=$(mktemp -t actor_data.XXXXXX)
-    callGitHubAPI -r user -- -u "${GITHUB_ACTOR}:${gh_api_token}" > "$actor_data_path"
+    callGitHubAPI -r user -- -u "${INPUT_GIT_COMMITTER_NAME}:${gh_api_token}" > "$actor_data_path"
 
     # Set committer email.
     local actor_email="$(cat "$actor_data_path" | getFromJSON email)"
