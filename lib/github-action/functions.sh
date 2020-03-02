@@ -37,7 +37,7 @@ function callGitHubAPI {
     local url="https://api.github.com/$resource"
     [ ! -z "$endpoint" ] && url="$url/$GITHUB_REPOSITORY/$endpoint"
 
-    curl --fail --show-error \
+    curl --fail --silent --show-error \
         --header "Accept: application/vnd.github.v3+json" \
         "$@" "$url"
 }
