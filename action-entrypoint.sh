@@ -99,7 +99,7 @@ function main {
 
     # Without a user-provided GitHub API token, we cannot deploy to GitHub Pages.
     if [ -n "$gh_api_token" ]; then
-        callGitHubAPI -r repos -e pages/builds -- -X POST -u "${GITHUB_ACTOR}:${gh_api_token}"
+        callGitHubAPI -r repos -e pages/builds -- -X POST -u "${INPUT_GIT_COMMITTER_NAME}:${gh_api_token}"
     fi
 }
 
