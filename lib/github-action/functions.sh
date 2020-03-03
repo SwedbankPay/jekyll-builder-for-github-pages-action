@@ -79,7 +79,7 @@ function getGitHubPagesPublishingSource {
     if [ "user" = $(getGitHubPagesSiteType) ]; then
         br="master"
     elif [ -z "$INPUT_GH_PAGES_PUBLISHING_SOURCE" ]; then
-        br=$(callGitHubAPI -r repos -e pages -- -u "${GITHUB_ACTOR}:${gh_api_token}" | getFromJSON "source" "branch")
+        br=$(callGitHubAPI -r repos -e pages -- -u "${INPUT_GIT_COMMITTER_NAME}:${gh_api_token}" | getFromJSON "source" "branch")
     else
         br="$INPUT_GH_PAGES_PUBLISHING_SOURCE"
     fi
