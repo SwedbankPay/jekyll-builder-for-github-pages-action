@@ -87,8 +87,8 @@ function main {
     # Commit any changes back to the publishing source branch.
     cd "$(getBuildDir)"
     git add -A
-    git commit -m "${INPUT_GIT_COMMIT_MESSAGE:-Auto-deployed via GitHub Actions.}"
-    git push --force origin "$gh_pages_publishing_source"
+    git commit -m "${INPUT_GIT_COMMIT_MESSAGE:-Auto-deployed via GitHub Actions.}" \
+        && git push --force origin "$gh_pages_publishing_source"
     
     cd -
 
