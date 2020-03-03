@@ -38,26 +38,21 @@ readonly gh_api_token="$INPUT_SECRET_GH_PAGES_API_TOKEN"
 # Uses: callGitHubAPI
 # Uses: getFromJSON
 function setup_build_repo {
-    # Get data from the GitHub API.
-    local -r actor_data_path=$(mktemp -t actor_data.XXXXXX)
-    callGitHubAPI -r user -- -u "${GITHUB_ACTOR}:${gh_api_token}" > "$actor_data_path"
-
     # Set committer email.
-    local actor_email="$(cat "$actor_data_path" | getFromJSON email)"
-    local -r committer_email="${INPUT_GIT_COMMITTER_EMAIL:-${actor_email:-$GITHUB_ACTOR@users.noreply.github.com}}"
+    local -r committer_email="${INPUT_GIT_COMMITTER_EMAIL}"
     git config user.email "$committer_email"
 
     # Set committer name.
-    local actor_name="$(cat "$actor_data_path" | getFromJSON name)"
-    git config user.name "${INPUT_GIT_COMMITTER_NAME:-${actor_name:-Github Actions ($GITHUB_WORKFLOW:$GITHUB_ACTION)}}"
+    git config user.name "${INPUT_GIT_COMMITTER_NAME}}"
 
     # Set Git remote repository configuration.
     git config remote.origin.url "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
     # Update local repo with the necessary branch's (shallow) history.
     git fetch
-    git checkout -B "$gh_pages_publishing_source" origin/"$gh_pages_publishing_source"
-
+    git checkout -B "$gh_pages_publishing_source"
+    # git checkout -B "$gh_pages_publishing_source" origin/"$gh_pages_publishing_source"
+    
     # Copy the Git repository there.
     cp -R .git "$(getBuildDir)"
 }
@@ -95,12 +90,13 @@ function main {
     git add -A
     git commit -m "${INPUT_GIT_COMMIT_MESSAGE:-Auto-deployed via GitHub Actions.}" \
         && git push --force origin "$gh_pages_publishing_source"
+    
     cd -
 
     # Without a user-provided GitHub API token, we cannot deploy to GitHub Pages.
-    if [ -n "$gh_api_token" ]; then
-        callGitHubAPI -r repos -e pages/builds -- -X POST -u "${GITHUB_ACTOR}:${gh_api_token}"
-    fi
+    #if [ -n "$gh_api_token" ]; then
+    #    callGitHubAPI -r repos -e pages/builds -- -X POST -u "${INPUT_GIT_COMMITTER_NAME}:${gh_api_token}"
+    #fi
 }
 
 main "$@"
