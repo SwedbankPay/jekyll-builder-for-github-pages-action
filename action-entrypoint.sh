@@ -49,7 +49,7 @@ function setup_build_repo {
     git config remote.origin.url "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
     # Update local repo with the necessary branch's (shallow) history.
-    git fetch --all
+    git fetch
     git checkout -B "$gh_pages_publishing_source" origin/"$gh_pages_publishing_source"
 
     # Copy the Git repository there.
