@@ -50,7 +50,8 @@ function setup_build_repo {
 
     # Update local repo with the necessary branch's (shallow) history.
     git fetch
-    git checkout -B "$gh_pages_publishing_source" origin/"$gh_pages_publishing_source"
+    git checkout -f "$gh_pages_publishing_source"
+    # git checkout -B "$gh_pages_publishing_source" origin/"$gh_pages_publishing_source"
     
     # Copy the Git repository there.
     cp -R .git "$(getBuildDir)"
