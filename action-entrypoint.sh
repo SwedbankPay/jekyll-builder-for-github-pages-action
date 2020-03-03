@@ -94,9 +94,9 @@ function main {
     cd -
 
     # Without a user-provided GitHub API token, we cannot deploy to GitHub Pages.
-    if [ -n "$gh_api_token" ]; then
-        callGitHubAPI -r repos -e pages/builds -- -X POST -u "${INPUT_GIT_COMMITTER_NAME}:${gh_api_token}"
-    fi
+    #if [ -n "$gh_api_token" ]; then
+    #    callGitHubAPI -r repos -e pages/builds -- -X POST -u "${INPUT_GIT_COMMITTER_NAME}:${gh_api_token}"
+    #fi
 }
 
 main "$@"
