@@ -69,13 +69,13 @@ function main {
 
     # Check for GitHub Pages requirements. If the `github-pages` Gem
     # is used, some additional environment variables need to be set.
-    [ -r "Gemfile.lock" ] && \
-        sed -ne '/^DEPENDENCIES$/,/^$/ p' "Gemfile.lock" \
-            | grep -q "github-pages"
-    if [ 0 -eq $? ]; then
-        export JEKYLL_GITHUB_TOKEN="$gh_api_token"
-        export PAGES_REPO_NWO="${PAGES_REPO_NWO:-$GITHUB_REPOSITORY}"
-    fi
+    #[ -r "Gemfile.lock" ] && \
+    #    sed -ne '/^DEPENDENCIES$/,/^$/ p' "Gemfile.lock" \
+    #        | grep -q "github-pages"
+    #if [ 0 -eq $? ]; then
+    #    export JEKYLL_GITHUB_TOKEN="$gh_api_token"
+    #    export PAGES_REPO_NWO="${PAGES_REPO_NWO:-$GITHUB_REPOSITORY}"
+    #fi
 
     # Execute the original image's own entrypoint.
     /usr/jekyll/bin/entrypoint jekyll build -d "$JEKYLL_DATA_DIR" "$INPUT_JEKYLL_BUILD_OPTS"
